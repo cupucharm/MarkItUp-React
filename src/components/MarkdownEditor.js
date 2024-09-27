@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import styles from "../style/MarkdownEditor.module.scss";
 
 const MarkdownEditor = () => {
   const [editorHtml, setEditorHtml] = useState("");
@@ -10,9 +11,13 @@ const MarkdownEditor = () => {
   };
 
   return (
-    <div className="editor-container">
-      <div className="quill-editor">
-        <ReactQuill value={editorHtml} onChange={handleEditorChange} />
+    <div className={styles.editorContainer}>
+      <div className={styles.quillEditor}>
+        <ReactQuill
+          style={{ height: "600px" }}
+          value={editorHtml}
+          onChange={handleEditorChange}
+        />
       </div>
     </div>
   );

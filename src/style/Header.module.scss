@@ -1,0 +1,29 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 7vh;
+  padding: 0 20px;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.headerButton {
+  flex: 1;
+  min-width: 60px;
+  padding: 5px 5px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+
+  &:hover {
+    background-color: #4c4c4c;
+    color: white;
+  }
+}

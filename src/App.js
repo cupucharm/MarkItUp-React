@@ -4,6 +4,7 @@ import MarkdownEditor from "./components/MarkdownEditor";
 import Header from "./components/Header";
 import IntroSection from "./components/IntroSection";
 import ButtonSection from "./components/ButtonSection";
+import ConvertSection from "./components/ConvertSection";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <IntroSection />
       <ButtonSection />
       <MarkdownEditor />
+      <ConvertSection />
     </div>
   );
 }

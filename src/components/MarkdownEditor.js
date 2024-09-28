@@ -1,24 +1,24 @@
 import React, { useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import { Editor } from "react-draft-wysiwyg";
+import { EditorState } from "draft-js";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import styles from "../style/MarkdownEditor.module.scss";
 
 const MarkdownEditor = () => {
-  const [editorHtml, setEditorHtml] = useState("");
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
-  const handleEditorChange = (html) => {
-    setEditorHtml(html);
+  const handleEditorStateChange = (newEditorState) => {
+    setEditorState(newEditorState);
   };
 
   return (
-    <div className={styles.editorContainer}>
-      <div className={styles.quillEditor}>
-        <ReactQuill
-          style={{ height: "600px" }}
-          value={editorHtml}
-          onChange={handleEditorChange}
-        />
-      </div>
+    <div>
+      <Editor
+        editorState={editorState}
+        wrapperClassName={styles.wrapper}
+        editorClassName={styles.editor}
+        onEditorStateChange={handleEditorStateChange}
+      />
     </div>
   );
 };

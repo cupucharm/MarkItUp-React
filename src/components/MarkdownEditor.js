@@ -3,6 +3,7 @@ import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import styles from "../style/MarkdownEditor.module.scss";
+import ConvertSection from "../components/ConvertSection";
 
 const MarkdownEditor = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -19,6 +20,7 @@ const MarkdownEditor = () => {
         editorClassName={styles.editor}
         onEditorStateChange={handleEditorStateChange}
       />
+      <ConvertSection />
     </div>
   );
 };

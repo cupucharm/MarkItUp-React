@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "../style/ConvertSection.module.scss";
 
-const ConvertSection = () => {
+const ConvertSection = ({ onConvertToMarkdown }) => {
   const [activeTab, setActiveTab] = useState("editor");
 
   return (
@@ -19,7 +19,10 @@ const ConvertSection = () => {
           className={`${styles.tab} ${
             activeTab === "markdown" ? styles.active : ""
           }`}
-          onClick={() => setActiveTab("markdown")}
+          onClick={() => {
+            setActiveTab("markdown");
+            onConvertToMarkdown(); // Markdown 변환 함수 호출
+          }}
         >
           Markdown
         </button>

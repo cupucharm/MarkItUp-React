@@ -17,9 +17,21 @@ const ButtonSection = React.forwardRef(({ markdownContent }, ref) => {
       });
   };
 
+  const handleSaveAsMarkdown = () => {
+    const blob = new Blob([markdownContent], { type: "text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "markitup.md"; 
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div ref={ref} className={styles.buttonContainer}>
-      <button className={styles.button}>
+      <button className={styles.button} onClick={handleSaveAsMarkdown}>
         <div className={styles.iconTextContainer}>
           <FileDownloadOutlinedIcon style={{ marginRight: "5px" }} />
           Save as Markdown

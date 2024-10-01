@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -7,20 +7,21 @@ import ConvertSection from "../components/ConvertSection";
 import { stateToHTML } from "draft-js-export-html";
 import { convert } from "html-to-markdown";
 
-const MarkdownEditor = () => {
+const MarkdownEditor = ({ onMarkdownChange }) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [markdown, setMarkdown] = useState("");
 
   const handleEditorStateChange = (newEditorState) => {
     setEditorState(newEditorState);
   };
 
-  const contentState = editorState.getCurrentContent();
-  const html = stateToHTML(contentState);
-  const markdown = convert(html);
-
-  const handleConvertToMarkdown = () => {
-    console.log(markdown);
-  };
+  useEffect(() => {
+    const contentState = editorState.getCurrentContent();
+    const html = stateToHTML(contentState);
+    const markdown = convert(html);
+    setMarkdown(markdown);
+    onMarkdownChange(markdown); // 마크다운 내용을 부모 컴포넌트에 전달
+  }, [editorState, onMarkdownChange]);
 
   return (
     <div>
@@ -30,7 +31,7 @@ const MarkdownEditor = () => {
         editorClassName={styles.editor}
         onEditorStateChange={handleEditorStateChange}
       />
-      <ConvertSection onConvertToMarkdown={handleConvertToMarkdown} />
+      <ConvertSection markdown={markdown} />
     </div>
   );
 };

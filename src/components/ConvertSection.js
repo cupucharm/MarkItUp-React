@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "../style/ConvertSection.module.scss";
 
-const ConvertSection = ({ onConvertToMarkdown }) => {
+const ConvertSection = ({ markdown }) => {
   const [activeTab, setActiveTab] = useState("editor");
 
   return (
@@ -21,7 +21,7 @@ const ConvertSection = ({ onConvertToMarkdown }) => {
           }`}
           onClick={() => {
             setActiveTab("markdown");
-            onConvertToMarkdown(); // Markdown 변환 함수 호출
+            console.log("markdown >> ", markdown);
           }}
         >
           Markdown

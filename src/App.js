@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "./style/Main.module.scss";
 import MarkdownEditor from "./components/MarkdownEditor";
 import Header from "./components/Header";
@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 
 function App() {
   const buttonSectionRef = useRef(null);
+  const [markdownContent, setMarkdownContent] = useState("");
 
   const handleConvertClick = () => {
     if (buttonSectionRef.current) {
@@ -15,12 +16,16 @@ function App() {
     }
   };
 
+  const handleMarkdownChange = (markdown) => {
+    setMarkdownContent(markdown);
+  };
+
   return (
     <div className="App">
       <Header onConvertClick={handleConvertClick} />
       <IntroSection />
-      <ButtonSection ref={buttonSectionRef} />
-      <MarkdownEditor />
+      <ButtonSection ref={buttonSectionRef} markdownContent={markdownContent} />
+      <MarkdownEditor onMarkdownChange={handleMarkdownChange} />
       <Footer />
     </div>
   );

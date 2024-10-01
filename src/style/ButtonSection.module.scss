@@ -3,14 +3,14 @@
   justify-content: center;
   gap: 10px;
   padding: 10px 0;
-  background-color: #f5f5f5;
+  // background-color: #f5f5f5;
   margin: 1px 0;
 }
 
 .button {
-  display: flex; /* 버튼 내에서 Flexbox 사용 */
-  align-items: center; /* 수직 정렬 */
-  justify-content: center; /* 수평 정렬 */
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
   padding: 10px 20px;
   background-color: #000000;
   color: white;

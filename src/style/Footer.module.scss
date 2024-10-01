@@ -1,15 +1,15 @@
 .footer {
   display: flex;
   flex-direction: column;
-  justify-content: space-between; // 공간을 균등하게 분배
-  align-items: center; // 중앙 정렬
+  justify-content: space-between;
+  align-items: center;
   padding-bottom: 3vh;
   // height: 20vh;
 }
 
 .line {
-  position: relative; // z-index를 사용하기 위해 position 설정
-  z-index: 1; // 다른 요소보다 위에 표시
+  position: relative;
+  z-index: 1;
   border: none;
   border-top: 1px solid #ccc;
   margin: 0 0 10px 0;
@@ -24,11 +24,10 @@
 .designedBy {
   font-size: 16px;
   margin: 0;
-  color: #909090;
+  color: #525252;
 }
 
 .handle {
   font-size: 16px;
   margin: 0;
-  color: #575757;
 }

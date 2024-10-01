@@ -6,8 +6,8 @@ const Footer = () => {
     <footer className={styles.footer}>
       <hr className={styles.line} />
       <div className={styles.textContainer}>
-        <p className={styles.designedBy}>Designed by sooz_ch</p>
-        <p className={styles.handle}>@cupucharm</p>
+        <p className={styles.designedBy}>Designed by cupucharm</p>
+        <p className={styles.handle}>@sooz_ch</p>
       </div>
     </footer>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./style/Main.module.scss";
 import MarkdownEditor from "./components/MarkdownEditor";
 import Header from "./components/Header";
@@ -7,11 +7,19 @@ import ButtonSection from "./components/ButtonSection";
 import Footer from "./components/Footer";
 
 function App() {
+  const buttonSectionRef = useRef(null);
+
+  const handleConvertClick = () => {
+    if (buttonSectionRef.current) {
+      buttonSectionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="App">
-      <Header />
+      <Header onConvertClick={handleConvertClick} />
       <IntroSection />
-      <ButtonSection />
+      <ButtonSection ref={buttonSectionRef} />
       <MarkdownEditor />
       <Footer />
     </div>

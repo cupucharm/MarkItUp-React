@@ -3,9 +3,9 @@ import styles from "../style/ButtonSection.module.scss";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import ContentPasteOutlinedIcon from "@mui/icons-material/ContentPasteOutlined";
 
-const ButtonSection = () => {
+const ButtonSection = React.forwardRef((props, ref) => {
   return (
-    <div className={styles.buttonContainer}>
+    <div ref={ref} className={styles.buttonContainer}>
       <button className={styles.button}>
         <div className={styles.iconTextContainer}>
           <FileDownloadOutlinedIcon style={{ marginRight: "5px" }} />
@@ -20,6 +20,6 @@ const ButtonSection = () => {
       </button>
     </div>
   );
-};
+});
 
 export default ButtonSection;

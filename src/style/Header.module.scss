@@ -11,6 +11,15 @@
   gap: 10px;
 }
 
+.convertButton {
+  background-color: transparent;
+  color: #575757;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
 .headerButton {
   flex: 1;
   min-width: 60px;

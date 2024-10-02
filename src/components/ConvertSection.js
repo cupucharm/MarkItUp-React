@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "../style/ConvertSection.module.scss";
 
-const ConvertSection = ({ markdown }) => {
-  const [activeTab, setActiveTab] = useState("editor");
+const ConvertSection = ({ markdown, activeTab, onTabChange }) => {
+
+  const handleTabChange = (tab) => {
+    if (activeTab !== tab) {
+      onTabChange(tab);
+    }
+  };
 
   return (
     <div className={styles.convertSection}>
@@ -11,7 +16,7 @@ const ConvertSection = ({ markdown }) => {
           className={`${styles.tab} ${
             activeTab === "editor" ? styles.active : ""
           }`}
-          onClick={() => setActiveTab("editor")}
+          onClick={() => handleTabChange("editor")}
         >
           Editor
         </button>
@@ -19,10 +24,7 @@ const ConvertSection = ({ markdown }) => {
           className={`${styles.tab} ${
             activeTab === "markdown" ? styles.active : ""
           }`}
-          onClick={() => {
-            setActiveTab("markdown");
-            console.log("markdown >> ", markdown);
-          }}
+          onClick={() => handleTabChange("markdown")}
         >
           Markdown
         </button>

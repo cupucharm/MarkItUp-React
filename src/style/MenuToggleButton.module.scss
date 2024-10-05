@@ -1,0 +1,9 @@
+.toggleButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  &.whiteButton {
+    color: white;
+  }
+}

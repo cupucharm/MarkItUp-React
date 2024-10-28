@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "../style/Header.module.scss";
 import MenuToggleButton from "./MenuToggleButton.js";
+const logo = process.env.PUBLIC_URL + "/images/logo.png";
 
 const Header = ({ onConvertClick, onToggleMenu, isScrolled }) => {
   return (
@@ -8,12 +9,12 @@ const Header = ({ onConvertClick, onToggleMenu, isScrolled }) => {
       className={`${styles.header} ${isScrolled ? styles.darkBackground : ""}`}
     >
       <MenuToggleButton onToggle={onToggleMenu} isScrolled={isScrolled} />
-      <div
-        className={`${styles.logo} ${
-          isScrolled ? styles.whiteLogo : styles.blackLogo
-        }`}
-      >
-        MIU
+      <div className={styles.logo}>
+        <img
+          src={logo}
+          alt="로고"
+          className={`${isScrolled ? styles.whiteLogo : styles.blackLogo}`}
+        />
       </div>
       <div className={styles.buttonContainer}>
         <button

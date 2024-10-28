@@ -18,21 +18,27 @@
 
 .logo {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-  transition: color 0.3s;
+  left: 47%;
+  // transform: translateX(-50%);
+  // text-align: center;
+  // font-size: 24px;
+  // font-weight: bold;
+  // transition: color 0.3s;
+}
+.logo img {
+  max-height: 7vh !important;
+  padding: 0.5vh 0 0 0;
+  height: auto !important;
+  width: auto !important;
 }
 
-.logo.whiteLogo {
-  color: white;
-}
+// .logo.whiteLogo {
+//   color: white;
+// }
 
-.logo.blackLogo {
-  color: black;
-}
+// .logo.blackLogo {
+//   color: black;
+// }
 
 .buttonContainer {
   display: flex;

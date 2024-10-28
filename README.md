@@ -1,3 +1,42 @@
+MarkItUp
+==================
+
+
+update 2024-10-28<br/><br/>
+
+
+변환 되는 것
+
+
+볼드, 기울기, 글자색, 링크
+<br/><br/>
+
+
+
+변환 안되는 것
+
+
+밑줄, 취소선, 코드블록, list 들여쓰기 안되는 것, 정렬, 이미지, 들여쓰기
+
+<br/>
+
+
+추가하고 싶은 것
+
+
+수평선
+
+
+<br/>
+<hr/>
+<br/>
+
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

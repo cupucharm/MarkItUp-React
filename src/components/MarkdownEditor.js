@@ -54,7 +54,7 @@ const MarkdownEditor = ({ onMarkdownChange }) => {
     // 코드 블록 처리
     service.addRule("codeBlock", {
       filter: "pre",
-      replacement: (content) => `\`\`\`\n${content}\n\`\`\``, // 마크다운 형식의 코드 블록
+      replacement: (content) => `\`\`\`\n${content}\n\`\`\``,
     });
 
     return service;

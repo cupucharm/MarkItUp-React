@@ -39,6 +39,24 @@ const MarkdownEditor = ({ onMarkdownChange }) => {
       },
     });
 
+    // 밑줄 처리
+    service.addRule("underline", {
+      filter: "ins",
+      replacement: (content) => `<ins>${content}</ins>`, // github 기준, 원래는 __밑줄__, 또는 <u></u>
+    });
+
+    // 취소선 처리
+    service.addRule("strikethrough", {
+      filter: "del",
+      replacement: (content) => `~~${content}~~`,
+    });
+
+    // 코드 블록 처리
+    service.addRule("codeBlock", {
+      filter: "pre",
+      replacement: (content) => `\`\`\`\n${content}\n\`\`\``, // 마크다운 형식의 코드 블록
+    });
+
     return service;
   }, []);
 
@@ -102,11 +120,15 @@ const MarkdownEditor = ({ onMarkdownChange }) => {
 
   // Markdown을 HTML로 변환하는 함수
   const markdownToHtml = (markdown) => {
-    return remark()
+    const processed = remark()
       .use(remarkGfm)
-      .use(remarkHtml)
+      .use(remarkHtml, {
+        sanitize: false, // HTML 태그를 허용
+      })
       .processSync(markdown)
       .toString();
+
+    return processed;
   };
 
   // HTML에서 ContentState로 변환할 때 규칙 추가

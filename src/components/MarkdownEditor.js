@@ -142,6 +142,19 @@ const MarkdownEditor = ({ onMarkdownChange }) => {
       entityMap
     );
 
+    // 이미지 엔티티를 처리하는 로직 추가
+    const blocks = newContentState.getBlocksAsArray();
+    blocks.forEach((block) => {
+      const entityKey = block.getEntity();
+      if (entityKey) {
+        const entity = newContentState.getEntity(entityKey);
+        if (entity.getType() === "IMAGE") {
+          const { src } = entity.getData();
+          block.setData({ src });
+        }
+      }
+    });
+
     return newContentState;
   };
 
@@ -164,6 +177,19 @@ const MarkdownEditor = ({ onMarkdownChange }) => {
     const b = bigint & 255;
 
     return { r, g, b };
+  };
+
+  const handleImageUpload = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        resolve({ data: { link: reader.result } });
+      };
+      reader.onerror = () => {
+        reject(new Error("Image upload failed"));
+      };
+      reader.readAsDataURL(file);
+    });
   };
 
   return (
@@ -190,6 +216,12 @@ const MarkdownEditor = ({ onMarkdownChange }) => {
             "image",
             "history",
           ],
+          image: {
+            uploadEnabled: true,
+            uploadCallback: handleImageUpload, // 이미지 업로드 핸들러 연결
+            previewImage: true,
+            inputAccept: "image/gif,image/jpeg,image/jpg,image/png,image/svg",
+          },
           inline: {
             inDropdown: false,
             className: undefined,
@@ -239,18 +271,18 @@ const MarkdownEditor = ({ onMarkdownChange }) => {
             defaultTargetOption: "_self",
             options: ["link", "unlink"],
           },
-          image: {
-            urlEnabled: true,
-            uploadEnabled: true,
-            alignmentEnabled: true,
-            previewImage: false,
-            inputAccept: "image/gif,image/jpeg,image/jpg,image/png,image/svg",
-            alt: { present: false, mandatory: false },
-            defaultSize: {
-              height: "auto",
-              width: "auto",
-            },
-          },
+          // image: {
+          //   urlEnabled: true,
+          //   uploadEnabled: true,
+          //   alignmentEnabled: true,
+          //   previewImage: false,
+          //   inputAccept: "image/gif,image/jpeg,image/jpg,image/png,image/svg",
+          //   alt: { present: false, mandatory: false },
+          //   defaultSize: {
+          //     height: "auto",
+          //     width: "auto",
+          //   },
+          // },
           history: {
             inDropdown: false,
             options: ["undo", "redo"],

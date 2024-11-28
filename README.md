@@ -33,7 +33,13 @@ list 들여쓰기 안되는 것, 정렬, 이미지, 들여쓰기, 표, 각주, �
 
 
 
+2024-09-16 피그마 화면 설계(https://www.figma.com/design/MmrlOR6fefkqqrfesqhNfI/MarkItUp?node-id=0-1&t=etjA6ZWZs58ApW3o-1)
+<img width="1552" alt="스크린샷 2024-11-28 오후 9 56 43" src="https://github.com/user-attachments/assets/4d1c404d-a376-405a-8cd0-a731dc70952c">
+<img width="1552" alt="스크린샷 2024-11-28 오후 9 56 50" src="https://github.com/user-attachments/assets/44bef739-ca1f-4e56-b8e4-c04993813423">
 
+<br/>
+<hr/>
+<br/>
 
 
 

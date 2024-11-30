@@ -9,7 +9,13 @@ const Header = ({ onConvertClick, onToggleMenu, isScrolled }) => {
       className={`${styles.header} ${isScrolled ? styles.darkBackground : ""}`}
     >
       <MenuToggleButton onToggle={onToggleMenu} isScrolled={isScrolled} />
-      <div className={styles.logo}>
+      <div
+        className={styles.logo}
+        onClick={() => {
+          window.scrollTo(0, 0);
+          window.location.reload();
+        }}
+      >
         <img
           src={logo}
           alt="로고"

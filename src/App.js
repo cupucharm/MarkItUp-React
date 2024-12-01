@@ -5,13 +5,16 @@ import Header from "./components/Header";
 import IntroSection from "./components/IntroSection";
 import ButtonSection from "./components/ButtonSection";
 import Footer from "./components/Footer";
+import RecentRecords from "./components/RecentRecords";
+import appStyles from "./style/App.module.scss";
 import headerStyles from "./style/Header.module.scss";
 import introStyles from "./style/IntroSection.module.scss";
 
 function App() {
   const buttonSectionRef = useRef(null);
   const [markdownContent, setMarkdownContent] = useState("");
-  const [isScrolled, setIsScrolled] = useState(false); // 스크롤 여부 상태
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleConvertClick = () => {
     if (buttonSectionRef.current) {
@@ -38,9 +41,12 @@ function App() {
         `.${headerStyles.header}`
       ).offsetHeight;
 
-      // 헤더가 introsection을 지나면
       setIsScrolled(introSectionBottom < headerHeight);
     }
+  };
+
+  const onToggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
   };
 
   useEffect(() => {
@@ -52,11 +58,23 @@ function App() {
 
   return (
     <div className="App">
-      <Header onConvertClick={handleConvertClick} isScrolled={isScrolled} />
-      <IntroSection />
-      <ButtonSection ref={buttonSectionRef} markdownContent={markdownContent} />
-      <MarkdownEditor onMarkdownChange={handleMarkdownChange} />
-      <Footer />
+      <Header
+        onConvertClick={handleConvertClick}
+        onToggleMenu={onToggleMenu}
+        isScrolled={isScrolled}
+      />
+      <div
+        className={`${appStyles.content} ${isMenuOpen ? appStyles.shift : ""}`}
+      >
+        {isMenuOpen && <RecentRecords isOpen={isMenuOpen} />}
+        <IntroSection />
+        <ButtonSection
+          ref={buttonSectionRef}
+          markdownContent={markdownContent}
+        />
+        <MarkdownEditor onMarkdownChange={handleMarkdownChange} />
+        <Footer />
+      </div>
     </div>
   );
 }

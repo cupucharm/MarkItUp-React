@@ -156,7 +156,7 @@ const MarkdownEditor = ({ onMarkdownChange }) => {
       entityMap
     );
 
-    // 추가: <p> 태그를 제거하고 리스트 항목을 처리
+    // <p> 태그를 제거하고 리스트 항목을 처리
     const blocks = newContentState
       .getBlocksAsArray()
       .map((block) => {
@@ -168,7 +168,6 @@ const MarkdownEditor = ({ onMarkdownChange }) => {
       .filter(Boolean);
 
     return ContentState.createFromBlockArray(blocks, entityMap);
-    // return newContentState;
   };
 
   // LaTeX 스타일을 HTML의 span으로 변환하는 함수
@@ -284,18 +283,6 @@ const MarkdownEditor = ({ onMarkdownChange }) => {
             defaultTargetOption: "_self",
             options: ["link", "unlink"],
           },
-          // image: {
-          //   urlEnabled: true,
-          //   uploadEnabled: true,
-          //   alignmentEnabled: true,
-          //   previewImage: false,
-          //   inputAccept: "image/gif,image/jpeg,image/jpg,image/png,image/svg",
-          //   alt: { present: false, mandatory: false },
-          //   defaultSize: {
-          //     height: "auto",
-          //     width: "auto",
-          //   },
-          // },
           history: {
             inDropdown: false,
             options: ["undo", "redo"],

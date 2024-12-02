@@ -38,13 +38,13 @@ const Header = ({ onConvertClick, onToggleMenu, isScrolled }) => {
         >
           로그인
         </button>
-        <button
+        {/* <button
           className={`${styles.headerButton} ${
             isScrolled ? styles.whiteButton : ""
           }`}
         >
           회원가입
-        </button>
+        </button> */}
       </div>
     </header>
   );

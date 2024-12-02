@@ -57,6 +57,20 @@ const MarkdownEditor = ({ onMarkdownChange }) => {
       replacement: (content) => `\`\`\`\n${content}\n\`\`\``,
     });
 
+    // 리스트 항목 처리
+    service.addRule("listItems", {
+      filter: ["ul", "ol"],
+      replacement: (content, node) => {
+        const items = Array.from(node.childNodes)
+          .map((li) => {
+            const text = li.textContent.trim();
+            return node.nodeName === "UL" ? `* ${text}` : `1. ${text}`;
+          })
+          .join("\n");
+        return `${items}\n`;
+      },
+    });
+
     return service;
   }, []);
 
@@ -142,20 +156,19 @@ const MarkdownEditor = ({ onMarkdownChange }) => {
       entityMap
     );
 
-    // 이미지 엔티티를 처리하는 로직 추가
-    const blocks = newContentState.getBlocksAsArray();
-    blocks.forEach((block) => {
-      const entityKey = block.getEntity();
-      if (entityKey) {
-        const entity = newContentState.getEntity(entityKey);
-        if (entity.getType() === "IMAGE") {
-          const { src } = entity.getData();
-          block.setData({ src });
+    // 추가: <p> 태그를 제거하고 리스트 항목을 처리
+    const blocks = newContentState
+      .getBlocksAsArray()
+      .map((block) => {
+        if (block.getType() === "unstyled" && block.getText().trim() === "") {
+          return null; // 빈 블록 제거
         }
-      }
-    });
+        return block;
+      })
+      .filter(Boolean);
 
-    return newContentState;
+    return ContentState.createFromBlockArray(blocks, entityMap);
+    // return newContentState;
   };
 
   // LaTeX 스타일을 HTML의 span으로 변환하는 함수

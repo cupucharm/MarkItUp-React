@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState, ContentState, convertToRaw } from "draft-js";
+import {
+  EditorState,
+  ContentState,
+  convertToRaw,
+  Modifier,
+  getDefaultKeyBinding,
+} from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import styles from "../style/MarkdownEditor.module.scss";
 import ConvertSection from "../components/ConvertSection";
@@ -204,6 +210,57 @@ const MarkdownEditor = ({ onMarkdownChange }) => {
     });
   };
 
+  const [isComposing, setIsComposing] = useState(false);
+
+  const keyBindingFn = (event) => {
+    if (isComposing) {
+      return "not-handled"; // 조합 중에는 기본 동작을 방지
+    }
+    if (event.key === "Tab") {
+      event.preventDefault();
+      return "tab"; // Tab 키에 대한 커스텀 바인딩 반환
+    }
+    return getDefaultKeyBinding(event);
+  };
+
+  const handleKeyCommand = (command) => {
+    if (command === "tab") {
+      if (!isComposing) {
+        // 조합 중이 아닐 때만 공백 삽입
+        const currentContent = editorState.getCurrentContent();
+        const selection = editorState.getSelection();
+        const contentState = Modifier.insertText(
+          currentContent,
+          selection,
+          "    " // 4칸의 공백을 삽입
+        );
+        const newEditorState = EditorState.push(
+          editorState,
+          contentState,
+          "insert-characters"
+        );
+        setEditorState(newEditorState);
+        return "handled";
+      }
+      return "not-handled"; // 조합 중일 경우 처리하지 않음
+    }
+    return "not-handled";
+  };
+
+  const handleCompositionStart = () => {
+    setIsComposing(true);
+  };
+
+  const handleCompositionEnd = (event) => {
+    setIsComposing(false);
+    // 입력이 끝난 후 상태 업데이트
+    const newEditorState = EditorState.forceSelection(
+      editorState,
+      editorState.getSelection()
+    );
+    setEditorState(newEditorState);
+  };
+
   return (
     <div>
       <Editor
@@ -211,9 +268,10 @@ const MarkdownEditor = ({ onMarkdownChange }) => {
         wrapperClassName={styles.wrapper}
         editorClassName={styles.editor}
         onEditorStateChange={handleEditorStateChange}
-        // localization={{
-        //   locale: "ko",
-        // }}
+        keyBindingFn={keyBindingFn} // Tab 키 바인딩 추가
+        handleKeyCommand={handleKeyCommand} // 키 명령 처리 추가
+        onCompositionStart={handleCompositionStart}
+        onCompositionEnd={handleCompositionEnd}
         toolbar={{
           options: [
             "inline",
@@ -221,7 +279,6 @@ const MarkdownEditor = ({ onMarkdownChange }) => {
             "fontSize",
             "fontFamily",
             "list",
-            "textAlign",
             "colorPicker",
             "link",
             "emoji",
@@ -272,10 +329,6 @@ const MarkdownEditor = ({ onMarkdownChange }) => {
           list: {
             inDropdown: false,
             options: ["unordered", "ordered", "indent", "outdent"],
-          },
-          textAlign: {
-            inDropdown: false,
-            options: ["left", "center", "right", "justify"],
           },
           link: {
             inDropdown: false,

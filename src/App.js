@@ -90,7 +90,6 @@ function App() {
                     markdownContent={markdownContent}
                   />
                   <MarkdownEditor onMarkdownChange={handleMarkdownChange} />
-                  <Footer />
                 </>
               }
             />
@@ -99,6 +98,7 @@ function App() {
             {/* 잘못된 경로 처리 */}
           </Routes>
         </div>
+        <Footer />
       </div>
     </Router>
   );

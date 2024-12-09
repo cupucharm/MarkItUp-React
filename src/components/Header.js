@@ -10,6 +10,7 @@ const Header = ({ onConvertClick, onToggleMenu, isScrolled }) => {
 
   const handleLoginClick = () => {
     // 로그인 페이지로 이동
+    window.scrollTo(0, 0);
     navigate("/login");
   };
 

@@ -24,15 +24,17 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleConvertClick = () => {
-    if (buttonSectionRef.current) {
-      const headerHeight = document.querySelector(
-        `.${headerStyles.header}`
-      ).offsetHeight;
-      const targetPosition =
-        buttonSectionRef.current.getBoundingClientRect().top +
-        window.scrollY -
-        headerHeight;
-      window.scrollTo({ top: targetPosition, behavior: "smooth" });
+    if (window.location.pathname === "/login") {
+      window.location.href = "/";
+    } else {
+      // / 페이지에서 클릭한 경우
+      window.scrollTo({
+        top:
+          buttonSectionRef.current.getBoundingClientRect().top +
+          window.scrollY -
+          document.querySelector(`.${headerStyles.header}`).offsetHeight,
+        behavior: "smooth",
+      });
     }
   };
 

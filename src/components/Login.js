@@ -4,7 +4,7 @@ import styles from "../style/Login.module.scss";
 function Login() {
   return (
     <div className={styles.login}>
-      <h1>로그인</h1>
+      <h1 style={{ textAlign: "center" }}>로그인</h1>
     </div>
   );
 }

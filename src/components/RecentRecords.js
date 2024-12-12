@@ -17,12 +17,8 @@ const RecentRecords = ({ isOpen }) => {
       className={`${styles.slideMenu} ${isOpen ? styles.open : ""}`}
       style={{ top: headerHeight }}
     >
-      <h2>최근 기록</h2>
-      <ul>
-        <li>기록 1</li>
-        <li>기록 2</li>
-        <li>기록 3</li>
-      </ul>
+      <h2 style={{ paddingLeft: "3vh" }}>최근 기록</h2>
+      <p style={{ textAlign: "center" }}>로그인이 필요합니다.</p>
     </div>
   );
 };

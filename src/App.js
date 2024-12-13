@@ -13,6 +13,7 @@ import ButtonSection from "./components/ButtonSection";
 import Footer from "./components/Footer";
 import RecentRecords from "./components/RecentRecords";
 import Login from "./components/Login";
+import Register from "./components/Register";
 import appStyles from "./style/App.module.scss";
 import headerStyles from "./style/Header.module.scss";
 
@@ -24,7 +25,10 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleConvertClick = () => {
-    if (window.location.pathname === "/login") {
+    if (
+      window.location.pathname === "/login" ||
+      window.location.pathname === "/register"
+    ) {
       window.location.href = "/";
     } else {
       // / 페이지에서 클릭한 경우
@@ -96,6 +100,7 @@ function App() {
               }
             />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="*" element={<Navigate to="/" />} />{" "}
             {/* 잘못된 경로 처리 */}
           </Routes>

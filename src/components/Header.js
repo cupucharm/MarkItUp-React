@@ -14,6 +14,12 @@ const Header = ({ onConvertClick, onToggleMenu, isScrolled }) => {
     navigate("/login");
   };
 
+  const handleRegisterClick = () => {
+    // 회원가입 페이지로 이동
+    window.scrollTo(0, 0);
+    navigate("/register");
+  };
+
   return (
     <header
       className={`${styles.header} ${isScrolled ? styles.darkBackground : ""}`}
@@ -49,13 +55,14 @@ const Header = ({ onConvertClick, onToggleMenu, isScrolled }) => {
         >
           로그인
         </button>
-        {/* <button
+        <button
           className={`${styles.headerButton} ${
             isScrolled ? styles.whiteButton : ""
           }`}
+          onClick={handleRegisterClick}
         >
           회원가입
-        </button> */}
+        </button>
       </div>
     </header>
   );

@@ -8,7 +8,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("https://your-api-endpoint.com/login", {
+      const response = await fetch("/sooz/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -22,7 +22,7 @@ function Login() {
 
       const data = await response.json();
       console.log("로그인 성공:", data);
-      // 로그인 성공 후 처리 (예: 리다이렉션)
+      // 로그인 성공 후 처리
     } catch (error) {
       setError(error.message);
     }

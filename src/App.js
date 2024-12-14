@@ -16,6 +16,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import appStyles from "./style/App.module.scss";
 import headerStyles from "./style/Header.module.scss";
+import ApiTest from "./ApiTest";
 
 function App() {
   const buttonSectionRef = useRef(null);
@@ -101,6 +102,7 @@ function App() {
             />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/sooz/apiTest" element={<ApiTest />}></Route>
             <Route path="*" element={<Navigate to="/" />} />{" "}
             {/* 잘못된 경로 처리 */}
           </Routes>

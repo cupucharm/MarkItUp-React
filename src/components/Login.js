@@ -39,20 +39,27 @@ function Login() {
 
       <form onSubmit={handleSubmit}>
         <div>
-          <input
-            type="text"
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
-            placeholder="아이디를 입력하세요."
-            required
-          />
-          <input
-            type="password"
-            value={userPwd}
-            onChange={(e) => setUserPwd(e.target.value)}
-            placeholder="비밀번호를 입력하세요."
-            required
-          />
+          <div>
+            <label htmlFor="userId">아이디</label>
+            <input
+              type="text"
+              id="userId"
+              value={userId}
+              onChange={(e) => setUserId(e.target.value)}
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="userPwd">비밀번호</label>
+            <input
+              type="password"
+              id="userPwd"
+              value={userPwd}
+              onChange={(e) => setUserPwd(e.target.value)}
+              required
+            />
+          </div>
           <button type="submit">로그인</button>
         </div>
       </form>

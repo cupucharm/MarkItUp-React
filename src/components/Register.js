@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "../style/Register.module.scss";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [userId, setUserId] = useState("");
@@ -8,6 +9,8 @@ function Register() {
   const [userName, setUserName] = useState("");
   const [registerError, setRegisterError] = useState("");
   const [dupIdChkError, setdDupIdChkError] = useState("");
+
+  const navigate = useNavigate(); // useNavigate 훅 사용
 
   const handleRegister = async () => {
     // 비어있는 항목 확인
@@ -22,7 +25,7 @@ function Register() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userId, userPwd, userPwdRe }),
+        body: JSON.stringify({ userName, userId, userPwd, userPwdRe }),
       });
 
       if (!response.ok) {
@@ -62,6 +65,11 @@ function Register() {
     } catch (e) {
       setdDupIdChkError(e.message);
     }
+  };
+
+  const handleLoginClick = () => {
+    window.scrollTo(0, 0);
+    navigate("/login");
   };
 
   return (
@@ -119,7 +127,8 @@ function Register() {
         </div>
       </form>
       <div>
-        이미 계정이 있으신가요? <button>로그인</button>
+        이미 계정이 있으신가요?{" "}
+        <button onClick={handleLoginClick}>로그인</button>
       </div>
     </div>
   );

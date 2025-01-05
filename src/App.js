@@ -24,6 +24,7 @@ function App() {
   const [markdownContent, setMarkdownContent] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 추가
 
   const handleConvertClick = () => {
     if (
@@ -63,6 +64,37 @@ function App() {
     setIsMenuOpen((prev) => !prev);
   };
 
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true); // 로그인 성공 시 상태 업데이트
+  };
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("/sooz/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("로그아웃 실패");
+      }
+
+      const data = await response.json();
+      if (data.status === true) {
+        console.log("로그아웃 성공:", data);
+        setIsLoggedIn(false);
+      } else {
+        console.log("로그아웃 실패:", data);
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error("로그아웃 중 오류 발생:", error);
+      alert("로그아웃 중 오류가 발생했습니다.");
+    }
+  };
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -77,6 +109,8 @@ function App() {
           onConvertClick={handleConvertClick}
           onToggleMenu={onToggleMenu}
           isScrolled={isScrolled}
+          isLoggedIn={isLoggedIn} // 로그인 상태 전달
+          onLogout={handleLogout} // 로그아웃 핸들러 전달
         />
         <div
           className={`${appStyles.content} ${
@@ -100,7 +134,10 @@ function App() {
                 </>
               }
             />
-            <Route path="/login" element={<Login />} />
+            <Route
+              path="/login"
+              element={<Login onLoginSuccess={handleLoginSuccess} />}
+            />
             <Route path="/register" element={<Register />} />
             <Route path="/sooz/apiTest" element={<ApiTest />}></Route>
             <Route path="*" element={<Navigate to="/" />} />{" "}

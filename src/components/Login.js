@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styles from "../style/Login.module.scss";
 import { useNavigate } from "react-router-dom";
 
-function Login() {
+function Login({ onLoginSuccess }) {
+  // onLoginSuccess prop 추가
   const [userId, setUserId] = useState("");
   const [userPwd, setUserPwd] = useState("");
   const [error, setError] = useState("");
@@ -12,6 +13,7 @@ function Login() {
   const loginSuccess = () => {
     window.scrollTo(0, 0);
     navigate("/");
+    onLoginSuccess(); // 로그인 성공 시 호출
   };
 
   const handleLogin = async () => {
@@ -71,7 +73,6 @@ function Login() {
               placeholder="아이디"
               value={userId}
               onChange={(e) => setUserId(e.target.value)}
-              // required
               className={styles.inputField}
             />
           </div>
@@ -83,7 +84,6 @@ function Login() {
               placeholder="비밀번호"
               value={userPwd}
               onChange={(e) => setUserPwd(e.target.value)}
-              // required
               className={styles.inputField}
             />
           </div>

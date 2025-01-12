@@ -5,7 +5,13 @@ import { useNavigate } from "react-router-dom";
 
 const logo = process.env.PUBLIC_URL + "/images/logo.png";
 
-const Header = ({ onConvertClick, onToggleMenu, isScrolled }) => {
+const Header = ({
+  onConvertClick,
+  onToggleMenu,
+  isScrolled,
+  isLoggedIn,
+  onLogout,
+}) => {
   const navigate = useNavigate(); // useNavigate 훅 사용
 
   const handleLoginClick = () => {
@@ -47,22 +53,35 @@ const Header = ({ onConvertClick, onToggleMenu, isScrolled }) => {
         >
           Convert
         </button>
-        <button
-          className={`${styles.headerButton} ${
-            isScrolled ? styles.whiteButton : ""
-          }`}
-          onClick={handleLoginClick}
-        >
-          로그인
-        </button>
-        <button
-          className={`${styles.headerButton} ${
-            isScrolled ? styles.whiteButton : ""
-          }`}
-          onClick={handleRegisterClick}
-        >
-          회원가입
-        </button>
+        {isLoggedIn ? (
+          <button
+            className={`${styles.headerButton} ${
+              isScrolled ? styles.whiteButton : ""
+            }`}
+            onClick={onLogout}
+          >
+            로그아웃
+          </button>
+        ) : (
+          <>
+            <button
+              className={`${styles.headerButton} ${
+                isScrolled ? styles.whiteButton : ""
+              }`}
+              onClick={handleLoginClick}
+            >
+              로그인
+            </button>
+            <button
+              className={`${styles.headerButton} ${
+                isScrolled ? styles.whiteButton : ""
+              }`}
+              onClick={handleRegisterClick}
+            >
+              회원가입
+            </button>
+          </>
+        )}
       </div>
     </header>
   );

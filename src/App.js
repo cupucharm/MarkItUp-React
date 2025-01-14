@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -16,7 +16,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import appStyles from "./style/App.module.scss";
 import headerStyles from "./style/Header.module.scss";
-import ApiTest from "./ApiTest";
+import { useAuth } from "./hooks/useAuth";
 
 function App() {
   const buttonSectionRef = useRef(null);
@@ -24,7 +24,8 @@ function App() {
   const [markdownContent, setMarkdownContent] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 추가
+  const { isLoggedIn, setIsLoggedIn, handleLoginSuccess, handleLogout } =
+    useAuth();
 
   const handleConvertClick = () => {
     if (
@@ -33,7 +34,6 @@ function App() {
     ) {
       window.location.href = "/";
     } else {
-      // / 페이지에서 클릭한 경우
       window.scrollTo({
         top:
           buttonSectionRef.current.getBoundingClientRect().top +
@@ -55,7 +55,6 @@ function App() {
       const headerHeight = document.querySelector(
         `.${headerStyles.header}`
       ).offsetHeight;
-
       setIsScrolled(introSectionBottom < headerHeight);
     }
   };
@@ -64,43 +63,36 @@ function App() {
     setIsMenuOpen((prev) => !prev);
   };
 
-  const handleLoginSuccess = () => {
-    setIsLoggedIn(true); // 로그인 성공 시 상태 업데이트
-  };
-
-  const handleLogout = async () => {
+  const checkLoginStatus = useCallback(async () => {
     try {
-      const response = await fetch("/sooz/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("로그아웃 실패");
-      }
-
-      const data = await response.json();
-      if (data.status === true) {
-        console.log("로그아웃 성공:", data);
-        setIsLoggedIn(false);
+      const response = await fetch("/sooz/checkLoginSessionYn");
+      if (response.ok) {
+        setIsLoggedIn(true);
       } else {
-        console.log("로그아웃 실패:", data);
-        alert(data.message);
+        setIsLoggedIn(false);
       }
     } catch (error) {
-      console.error("로그아웃 중 오류 발생:", error);
-      alert("로그아웃 중 오류가 발생했습니다.");
+      console.error("로그인 상태 확인 중 오류 발생:", error);
+      setIsLoggedIn(false);
     }
-  };
+  }, [setIsLoggedIn]);
 
   useEffect(() => {
+    checkLoginStatus();
+
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [checkLoginStatus]);
+
+  const renderRoute = (isLoggedIn, Component, onLoginSuccess) => {
+    return isLoggedIn ? (
+      <Navigate to="/" />
+    ) : (
+      <Component onLoginSuccess={onLoginSuccess} />
+    );
+  };
 
   return (
     <Router>
@@ -109,8 +101,8 @@ function App() {
           onConvertClick={handleConvertClick}
           onToggleMenu={onToggleMenu}
           isScrolled={isScrolled}
-          isLoggedIn={isLoggedIn} // 로그인 상태 전달
-          onLogout={handleLogout} // 로그아웃 핸들러 전달
+          isLoggedIn={isLoggedIn}
+          onLogout={handleLogout}
         />
         <div
           className={`${appStyles.content} ${
@@ -134,14 +126,16 @@ function App() {
                 </>
               }
             />
+
             <Route
               path="/login"
-              element={<Login onLoginSuccess={handleLoginSuccess} />}
+              element={renderRoute(isLoggedIn, Login, handleLoginSuccess)}
             />
-            <Route path="/register" element={<Register />} />
-            <Route path="/sooz/apiTest" element={<ApiTest />}></Route>
-            <Route path="*" element={<Navigate to="/" />} />{" "}
-            {/* 잘못된 경로 처리 */}
+            <Route
+              path="/register"
+              element={renderRoute(isLoggedIn, Register)}
+            />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
         <Footer />

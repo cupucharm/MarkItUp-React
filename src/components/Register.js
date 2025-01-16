@@ -7,6 +7,9 @@ function Register() {
   const [userPwd, setUserPwd] = useState("");
   const [userPwdRe, setUserPwdRe] = useState("");
   const [userName, setUserName] = useState("");
+  const [userBirthY, setUserBirthY] = useState("");
+  const [userBirthM, setUserBirthM] = useState("");
+  const [userBirthD, setUserBirthD] = useState("");
   const [registerError, setRegisterError] = useState("");
   const [dupIdChkError, setdDupIdChkError] = useState("");
 
@@ -62,8 +65,11 @@ function Register() {
 
       const data = await response.json();
       console.log("아이디 중복 확인 성공 성공:", data);
+
+      setdDupIdChkError(data.message);
+      
     } catch (e) {
-      setdDupIdChkError(e.message);
+      console.log(e.message);
     }
   };
 
@@ -78,17 +84,6 @@ function Register() {
 
       <form onSubmit={handleSubmit}>
         <div>
-          <div>
-            <label htmlFor="userName">이름</label>
-            <input
-              type="text"
-              id="userName"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-              required
-            />
-          </div>
-
           <div>
             <label htmlFor="userId">아이디</label>
             <input
@@ -119,6 +114,43 @@ function Register() {
               id="userPwdRe"
               value={userPwdRe}
               onChange={(e) => setUserPwdRe(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="userName">이름</label>
+            <input
+              type="text"
+              id="userName"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="userBirthY">생년월일</label>
+            <input
+              type="text"
+              id="userBirthY"
+              value={userBirthY}
+              placeholder="YYYY"
+              onChange={(e) => setUserBirthY(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              id="userBirthM"
+              value={userBirthM}
+              placeholder="MM"
+              onChange={(e) => setUserBirthM(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              id="userBirthD"
+              value={userBirthD}
+              placeholder="DD"
+              onChange={(e) => setUserBirthD(e.target.value)}
               required
             />
           </div>

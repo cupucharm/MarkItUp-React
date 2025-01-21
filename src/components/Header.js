@@ -4,6 +4,7 @@ import MenuToggleButton from "./MenuToggleButton.js";
 import { useNavigate } from "react-router-dom";
 
 const logo = process.env.PUBLIC_URL + "/images/logo.png";
+const logoW = process.env.PUBLIC_URL + "/images/logoW.png";
 
 const Header = ({
   onConvertClick,
@@ -38,11 +39,13 @@ const Header = ({
           navigate("/");
         }}
       >
-        <img
-          src={logo}
-          alt="로고"
-          className={`${isScrolled ? styles.whiteLogo : styles.blackLogo}`}
-        />
+        {isScrolled ? (
+          <img src={logoW} alt="로고" />
+        ) : (
+          <img src={logo} alt="로고" />
+        )}
+
+        {/* markitup */}
       </div>
       <div className={styles.buttonContainer}>
         <button

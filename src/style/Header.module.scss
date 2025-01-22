@@ -1,9 +1,22 @@
+// .header {
+//   display: flex;
+//   align-items: center;
+//   height: 7vh;
+//   padding: 0 3vh;
+//   justify-content: flex-start;
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   background-color: white;
+//   z-index: 1000;
+// }
+
 .header {
   display: flex;
   align-items: center;
   height: 7vh;
   padding: 0 3vh;
-  justify-content: flex-start;
   position: fixed;
   top: 0;
   left: 0;
@@ -12,20 +25,23 @@
   z-index: 1000;
 }
 
+.logo {
+  position: absolute; /* 절대 위치 설정 */
+  left: 50%; /* 화면의 중앙으로 이동 */
+  transform: translateX(-50%); /* 중앙 정렬을 위한 변환 */
+  cursor: pointer;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 10px;
+  margin-left: auto; /* 오른쪽으로 밀기 */
+}
+
 .header.darkBackground {
   background: linear-gradient(to right, #525252, #3d72b4);
 }
 
-.logo {
-  position: absolute;
-  left: 47%;
-  cursor: pointer;
-  // transform: translateX(-50%);
-  // text-align: center;
-  // font-size: 24px;
-  // font-weight: bold;
-  // transition: color 0.3s;
-}
 .logo img {
   max-height: 7vh !important;
   padding: 0.5vh 0 0 0;
@@ -33,19 +49,11 @@
   width: auto !important;
 }
 
-// .logo.whiteLogo {
-//   color: white;
+// .buttonContainer {
+//   display: flex;
+//   gap: 10px;
+//   margin-left: auto;
 // }
-
-// .logo.blackLogo {
-//   color: black;
-// }
-
-.buttonContainer {
-  display: flex;
-  gap: 10px;
-  margin-left: auto;
-}
 
 .convertButton {
   background-color: transparent;

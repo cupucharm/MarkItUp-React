@@ -12,12 +12,16 @@ function Register() {
   const [userBirthM, setUserBirthM] = useState("");
   const [userBirthD, setUserBirthD] = useState("");
 
-  const [registerError, setRegisterError] = useState("");
+  const [registerErrorMsg, setRegisterErrorMsg] = useState("");
+  const [registerErrorChk, setRegisterChkError] = useState(false);
 
   const [idChkMsg, setIdChkMsg] = useState("");
   const [isIdChecked, setIsIdChecked] = useState(false);
   const [pwdChkMsg, setPwdChkMsg] = useState("");
   const [isPwdChecked, setIsPwdChecked] = useState(false);
+  const [birthChkMsg, setBirthChkMsg] = useState("");
+  const [isBirthChecked, setIsBirthChecked] = useState(false);
+  const [isNameChecked, setIsNameChecked] = useState(false);
 
   const navigate = useNavigate();
 
@@ -69,25 +73,64 @@ function Register() {
     }
   };
 
+  // 생년월일 확인
+  const birthCheck = () => {
+    const birthMessage = {
+      format: "생년월일 형식을 확인해주세요.",
+    };
+
+    const validateBirthFormat = () => {
+      const isYearValid = /^\d{4}$/.test(userBirthY);
+      const isMonthValid = /^\d{2}$/.test(userBirthM);
+      const isDayValid = /^\d{2}$/.test(userBirthD);
+
+      if (!isYearValid || !isMonthValid || !isDayValid) {
+        return birthMessage.format;
+      }
+    };
+
+    let error;
+    if (userBirthY && userBirthM && userBirthD) {
+      error = validateBirthFormat();
+    } else {
+      setBirthChkMsg("");
+      setIsBirthChecked(false);
+      return;
+    }
+
+    if (error) {
+      setBirthChkMsg(error);
+      setIsBirthChecked(false);
+      return error;
+    } else {
+      setBirthChkMsg("");
+      setIsBirthChecked(true);
+      return;
+    }
+  };
+
   const handleRegister = async () => {
     // 비어있는 항목 확인
     if (!checkEmptyField()) return;
 
     // 아이디 형식 체크
     if (!userIdCheck(userId)) {
-      setRegisterError("아이디 형식이 올바르지 않습니다.");
+      setRegisterErrorMsg("아이디 형식이 올바르지 않습니다.");
+      setRegisterChkError(false);
       return;
     }
 
     // 비밀번호 형식, 일치 여부 체크
     if (!passwordCheck(userPwd)) {
-      setRegisterError("비밀번호 형식이 올바르지 않습니다.");
+      setRegisterErrorMsg("비밀번호 형식이 올바르지 않습니다.");
+      setRegisterChkError(false);
       return;
     }
 
     // id 중복확인 했는지 확인
     if (!isIdChecked) {
-      setRegisterError("아이디 중복을 확인해 주세요.");
+      setRegisterErrorMsg("아이디 중복을 확인해 주세요.");
+      setRegisterChkError(false);
       return;
     }
 
@@ -115,7 +158,8 @@ function Register() {
       console.log("회원가입 성공:", data);
       // 로그인 성공 후 처리
     } catch (e) {
-      setRegisterError(e.message);
+      setRegisterErrorMsg(e.message);
+      setRegisterChkError(false);
     }
   };
 
@@ -136,31 +180,45 @@ function Register() {
     }
 
     if (!userPwd) {
-      setRegisterError("비밀번호를 입력해 주세요.");
-      return false;
+      setRegisterErrorMsg("비밀번호를 입력해 주세요.");
+      setRegisterChkError(false);
+      return;
     }
 
     if (!userPwdRe) {
-      setRegisterError("비밀번호 확인을 입력해 주세요.");
-      return false;
+      setRegisterErrorMsg("비밀번호 확인을 입력해 주세요.");
+      setRegisterChkError(false);
+      return;
     }
 
     if (!userName) {
-      setRegisterError("이름을 입력해 주세요.");
-      return false;
+      setRegisterErrorMsg("이름을 입력해 주세요.");
+      setRegisterChkError(false);
+      return;
     }
 
     if (!userBirthY || !userBirthM || !userBirthD) {
-      setRegisterError("생년월일을 입력해 주세요.");
-      return false;
+      setRegisterErrorMsg("생년월일을 입력해 주세요.");
+      setRegisterChkError(false);
+      return;
     }
 
     return true;
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // 기본 폼 제출 방지
-    handleRegister();
+    e.preventDefault();
+
+    console.log("아이디", isIdChecked);
+    console.log("비밀번호", isPwdChecked);
+    if (userName !== null) {
+      setIsNameChecked(true);
+    } else {
+      setIsNameChecked(false);
+    }
+    console.log("이름", isNameChecked);
+    console.log("생년월일", isBirthChecked);
+    // handleRegister();
   };
 
   const isIdMsgClear = () => {
@@ -300,40 +358,74 @@ function Register() {
             />
           </div>
 
-          <div className={styles.birthDateContainer}>
-            <input
-              type="text"
-              id="userBirthY"
-              placeholder="생년월일 (YYYY)"
-              value={userBirthY}
-              onChange={(e) => setUserBirthY(e.target.value)}
-              required
-              className={styles.birthInputField}
-            />
-            <input
-              type="text"
-              id="userBirthM"
-              placeholder="MM"
-              value={userBirthM}
-              onChange={(e) => setUserBirthM(e.target.value)}
-              required
-              className={styles.birthInputField}
-            />
-            <input
-              type="text"
-              id="userBirthD"
-              placeholder="DD"
-              value={userBirthD}
-              onChange={(e) => setUserBirthD(e.target.value)}
-              required
-              className={styles.birthInputField}
-            />
+          <div>
+            <div className={styles.birthDateContainer}>
+              <input
+                type="text"
+                id="userBirthY"
+                placeholder="생년월일 (YYYY)"
+                value={userBirthY}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (/^\d{0,4}$/.test(value)) {
+                    setUserBirthY(value);
+                  }
+                }}
+                onBlur={(e) => birthCheck()}
+                required
+                className={styles.birthInputField}
+              />
+
+              <input
+                type="text"
+                id="userBirthM"
+                placeholder="MM"
+                value={userBirthM}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (/^\d{0,2}$/.test(value)) {
+                    setUserBirthM(value);
+                  }
+                }}
+                onBlur={(e) => birthCheck()}
+                required
+                className={styles.birthInputField}
+              />
+              <input
+                type="text"
+                id="userBirthD"
+                placeholder="DD"
+                value={userBirthD}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (/^\d{0,2}$/.test(value)) {
+                    setUserBirthD(value);
+                  }
+                }}
+                onBlur={(e) => birthCheck()}
+                required
+                className={styles.birthInputField}
+              />
+            </div>
+            {birthChkMsg && (
+              <p style={{ marginTop: "0px" }}>
+                <Alert severity={isBirthChecked ? "success" : "error"}>
+                  {birthChkMsg}
+                </Alert>
+              </p>
+            )}
           </div>
 
           <button className={styles.registerButton} type="submit">
             가입하기
           </button>
-          {registerError && <p style={{ color: "red" }}>{registerError}</p>}
+          {registerErrorMsg && (
+            <p style={{ marginTop: "0px" }}>
+              <Alert severity={registerErrorChk ? "success" : "error"}>
+                {registerErrorMsg}
+              </Alert>
+            </p>
+          )}
         </div>
 
         <div style={{ textAlign: "center", marginTop: "1em" }}>

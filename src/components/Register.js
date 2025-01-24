@@ -11,14 +11,19 @@ function Register() {
   const [userBirthY, setUserBirthY] = useState("");
   const [userBirthM, setUserBirthM] = useState("");
   const [userBirthD, setUserBirthD] = useState("");
+
   const [registerError, setRegisterError] = useState("");
+
   const [idChkMsg, setIdChkMsg] = useState("");
   const [isIdChecked, setIsIdChecked] = useState(false);
+  const [pwdChkMsg, setPwdChkMsg] = useState("");
+  const [isPwdChecked, setIsPwdChecked] = useState(false);
 
   const navigate = useNavigate();
 
   const userIdRegEx = /^[A-Za-z0-9]{4,20}$/; // 아이디 정규식
-  const passwordRegEx = /^[A-Za-z0-9!@#$%^&*()_+={}\[\]:;"'<>,.?~`-]{8,20}$/; // 비밀번호 정규식
+  const passwordRegEx =
+    /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*()_+[\]{};':"\\|,.<>?]{8,20}$/; // 비밀번호 정규식
 
   const userIdCheck = (userId) => {
     if (userId.match(userIdRegEx) === null) {
@@ -28,15 +33,39 @@ function Register() {
     }
   };
 
+  // 비밀번호 형식 / 비밀번호 확인 일치 여부 확인
   const passwordCheck = (password) => {
-    if (password.match(passwordRegEx) === null) {
-      //형식에 맞지 않을 경우 아래 콘솔 출력
-      console.log("비밀번호 형식을 확인해주세요");
-      return false;
+    const pwdMessage = {
+      format: "비밀번호 형식을 확인해주세요.",
+      mismatch: "비밀번호가 일치하지 않습니다.",
+      success: "비밀번호가 일치합니다.",
+    };
+
+    const validatePasswordFormat = () => {
+      return !password.match(passwordRegEx) ? pwdMessage.format : false;
+    };
+
+    const validatePasswordMatch = () => {
+      return userPwd !== userPwdRe ? pwdMessage.mismatch : false;
+    };
+
+    let error;
+    if (userPwd && userPwdRe) {
+      error = validatePasswordFormat() || validatePasswordMatch();
     } else {
-      // 맞을 경우 출력
-      console.log("비밀번호 형식이 맞아요");
-      return true;
+      setPwdChkMsg("");
+      setIsPwdChecked(false);
+      return;
+    }
+
+    if (error) {
+      setPwdChkMsg(error);
+      setIsPwdChecked(false);
+      return error;
+    } else {
+      setPwdChkMsg(pwdMessage.success);
+      setIsPwdChecked(true);
+      return pwdMessage.success;
     }
   };
 
@@ -50,15 +79,9 @@ function Register() {
       return;
     }
 
-    // 비밀번호 형식 체크
+    // 비밀번호 형식, 일치 여부 체크
     if (!passwordCheck(userPwd)) {
       setRegisterError("비밀번호 형식이 올바르지 않습니다.");
-      return;
-    }
-
-    // 비밀번호 일치하는지 확인
-    if (userPwd !== userPwdRe) {
-      setRegisterError("비밀번호가 일치하지 않습니다.");
       return;
     }
 
@@ -194,9 +217,8 @@ function Register() {
 
   return (
     <div className={styles.register}>
-      <h1 style={{ textAlign: "center" }}>회원가입</h1>
-
       <form className={styles.loginForm} onSubmit={handleSubmit}>
+        <h1 style={{ textAlign: "center", color: "#3d72b4" }}>회 원 가 입</h1>
         <div className={styles.loginBox}>
           <div className={styles.idInputbox}>
             <input
@@ -252,10 +274,19 @@ function Register() {
               placeholder="비밀번호 확인"
               value={userPwdRe}
               onChange={(e) => setUserPwdRe(e.target.value)}
+              onBlur={(e) => passwordCheck(e.target.value)}
               required
               className={styles.inputField}
             />
           </div>
+
+          {pwdChkMsg && (
+            <p style={{ marginTop: "0px" }}>
+              <Alert severity={isPwdChecked ? "success" : "error"}>
+                {pwdChkMsg}
+              </Alert>
+            </p>
+          )}
 
           <div>
             <input
@@ -304,14 +335,14 @@ function Register() {
           </button>
           {registerError && <p style={{ color: "red" }}>{registerError}</p>}
         </div>
-      </form>
 
-      <div style={{ textAlign: "center", marginTop: "1em" }}>
-        이미 계정이 있으신가요?{" "}
-        <button onClick={handleLoginClick} className={styles.loginButton}>
-          로그인
-        </button>
-      </div>
+        <div style={{ textAlign: "center", marginTop: "1em" }}>
+          이미 계정이 있으신가요?{" "}
+          <button onClick={handleLoginClick} className={styles.loginButton}>
+            로그인
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

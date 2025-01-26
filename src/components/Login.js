@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "../style/Login.module.scss";
 import { useNavigate } from "react-router-dom";
+import { Alert } from "@mui/material";
 
 function Login({ onLoginSuccess }) {
   // onLoginSuccess prop 추가
@@ -65,6 +66,7 @@ function Login({ onLoginSuccess }) {
   return (
     <div className={styles.login}>
       <form className={styles.loginForm} onSubmit={handleSubmit}>
+        <h1 style={{ textAlign: "center", color: "#3d72b4" }}>로 그 인</h1>
         <div className={styles.loginBox}>
           <div>
             <input
@@ -87,12 +89,31 @@ function Login({ onLoginSuccess }) {
               className={styles.inputField}
             />
           </div>
+          <p style={{ marginTop: "0px" }}>
+            {error ? <Alert severity="error">{error}</Alert> : ""}
+          </p>
         </div>
-        {error && <p style={{ color: "red", fontSize: "0.8em" }}>{error}</p>}
 
         <button className={styles.loginButton} type="submit">
           로그인
         </button>
+
+        <div style={{ textAlign: "center", marginTop: "1em" }}>
+          <button className={styles.findButton}>
+            {/* <button onClick={handleLoginClick} className={styles.loginButton}> */}
+            아이디 찾기
+          </button>
+          |
+          <button className={styles.findButton}>
+            {/* <button onClick={handleLoginClick} className={styles.loginButton}> */}
+            비밀번호 찾기
+          </button>
+          |
+          <button className={styles.findButton}>
+            {/* <button onClick={handleLoginClick} className={styles.loginButton}> */}
+            회원가입
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -17,6 +17,7 @@ import Register from "./components/Register";
 import appStyles from "./style/App.module.scss";
 import headerStyles from "./style/Header.module.scss";
 import { useAuth } from "./hooks/useAuth";
+import FindPassword from "./components/findPassword";
 
 function App() {
   const buttonSectionRef = useRef(null);
@@ -109,7 +110,9 @@ function App() {
             isMenuOpen ? appStyles.shift : ""
           }`}
         >
-          {isMenuOpen && <RecentRecords isOpen={isMenuOpen} />}
+          {isMenuOpen && (
+            <RecentRecords isOpen={isMenuOpen} isLoggedIn={isLoggedIn} />
+          )}
           <Routes>
             <Route
               path="/"
@@ -135,6 +138,11 @@ function App() {
               path="/register"
               element={renderRoute(isLoggedIn, Register)}
             />
+            <Route
+              path="/findPassword"
+              element={renderRoute(isLoggedIn, FindPassword)}
+            />
+
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>

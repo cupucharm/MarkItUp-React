@@ -17,6 +17,17 @@ function Login({ onLoginSuccess }) {
     onLoginSuccess(); // 로그인 성공 시 호출
   };
 
+  // 비밀번호 찾기
+  const handleFindPwd = (e) => {
+    e.preventDefault();
+    navigate("/findPassword");
+  };
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    navigate("/register");
+  };
+
   const handleLogin = async () => {
     // 아이디와 비밀번호가 입력되었는지 확인
     if (!userId) {
@@ -104,13 +115,11 @@ function Login({ onLoginSuccess }) {
             아이디 찾기
           </button>
           |
-          <button className={styles.findButton}>
-            {/* <button onClick={handleLoginClick} className={styles.loginButton}> */}
+          <button className={styles.findButton} onClick={handleFindPwd}>
             비밀번호 찾기
           </button>
           |
-          <button className={styles.findButton}>
-            {/* <button onClick={handleLoginClick} className={styles.loginButton}> */}
+          <button className={styles.findButton} onClick={handleRegister}>
             회원가입
           </button>
         </div>

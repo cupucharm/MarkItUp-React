@@ -92,6 +92,20 @@ const MarkdownEditor = ({ onMarkdownChange }) => {
   };
 
   const handleEditorStateChange = (newEditorState) => {
+    const currentContent = newEditorState.getCurrentContent();
+    const currentBlock = currentContent.getBlockForKey(
+      newEditorState.getSelection().getAnchorKey()
+    );
+
+    // 현재 블록의 타입을 확인하여 리스트 관련 명령어가 실행되었는지 확인
+    if (
+      currentBlock.getType() === "unordered-list-item" ||
+      currentBlock.getType() === "ordered-list-item"
+    ) {
+      console.log("리스트가 활성화되었습니다.");
+      // 추가적인 처리 로직
+    }
+
     setEditorState(newEditorState);
   };
 
@@ -224,34 +238,68 @@ const MarkdownEditor = ({ onMarkdownChange }) => {
   };
 
   const handleKeyCommand = (command) => {
+    console.log("handleKeyCommand>> ", command);
+
     if (command === "tab") {
+      console.log("tab>> ");
       if (!isComposing) {
-        // 조합 중이 아닐 때만 공백 삽입
         const currentContent = editorState.getCurrentContent();
         const selection = editorState.getSelection();
-        const contentState = Modifier.insertText(
-          currentContent,
-          selection,
-          "    " // 4칸의 공백을 삽입
-        );
-        const newEditorState = EditorState.push(
-          editorState,
-          contentState,
-          "insert-characters"
-        );
-        setEditorState(newEditorState);
-        return "handled";
+        const currentBlockKey = selection.getAnchorKey();
+        const currentBlock = currentContent.getBlockForKey(currentBlockKey);
+
+        // 현재 블록이 리스트 아이템인지 확인
+        if (
+          currentBlock.getType() === "unordered-list-item" ||
+          currentBlock.getType() === "ordered-list-item"
+        ) {
+          // 현재 깊이를 가져옴
+          const currentDepth = currentBlock.getData().get("depth", 0);
+          console.log("currentDepth>> ", currentDepth);
+
+          // 깊이를 1 증가시킴
+          const newContentState = Modifier.setBlockData(
+            currentContent,
+            selection,
+            { depth: currentDepth + 1 }
+          );
+
+          const newEditorState = EditorState.push(
+            editorState,
+            newContentState,
+            "change-block-data"
+          );
+          setEditorState(newEditorState);
+          return "handled";
+        } else {
+          // 일반 텍스트일 경우 공백 삽입
+          const contentState = Modifier.insertText(
+            currentContent,
+            selection,
+            "    " // 4칸의 공백을 삽입
+          );
+          const newEditorState = EditorState.push(
+            editorState,
+            contentState,
+            "insert-characters"
+          );
+          setEditorState(newEditorState);
+          return "handled";
+        }
       }
       return "not-handled"; // 조합 중일 경우 처리하지 않음
     }
+
     return "not-handled";
   };
 
   const handleCompositionStart = () => {
+    console.log("handleCompositionStart");
     setIsComposing(true);
   };
 
   const handleCompositionEnd = (event) => {
+    console.log("handleCompositionEnd", event);
     setIsComposing(false);
     // 입력이 끝난 후 상태 업데이트
     const newEditorState = EditorState.forceSelection(

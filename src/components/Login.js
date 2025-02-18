@@ -12,6 +12,9 @@ function Login({ onLoginSuccess }) {
   const navigate = useNavigate();
 
   const loginSuccess = () => {
+    sessionStorage.setItem("userId", userId);
+    sessionStorage.setItem("loginYn", true);
+
     window.scrollTo(0, 0);
     navigate("/");
     onLoginSuccess(); // 로그인 성공 시 호출

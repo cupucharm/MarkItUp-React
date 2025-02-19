@@ -22,6 +22,7 @@ export const useAuth = () => {
 
       const data = await response.json();
       if (data.status === true) {
+        sessionStorage.clear();
         console.log("로그아웃 성공:", data);
         setIsLoggedIn(false);
       } else {

@@ -122,8 +122,19 @@ const MarkdownEditor = ({ onMarkdownChange }) => {
     }
   }, [editorState, activeTab, onMarkdownChange, turndownService]);
 
-  const handleTabChange = (tab) => {
+  const handleTabChange = async (tab) => {
     setActiveTab(tab);
+
+    // 이력 저장 api 호출
+
+    // const response = await fetch("/sooz/saveWritingHistory", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   // body: JSON.stringify({ userId, markdownContent, htmlContent }),
+    // });
+
     if (tab === "markdown") {
       const contentState = editorState.getCurrentContent();
       const html = draftToHtml(convertToRaw(contentState));

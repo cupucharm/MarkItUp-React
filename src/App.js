@@ -25,8 +25,13 @@ function App() {
   const [markdownContent, setMarkdownContent] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isLoggedIn, setIsLoggedIn, handleLoginSuccess, handleLogout } =
-    useAuth();
+  const {
+    isLoggedIn,
+    userId,
+    setIsLoggedIn,
+    handleLoginSuccess,
+    handleLogout,
+  } = useAuth();
 
   const handleConvertClick = () => {
     if (

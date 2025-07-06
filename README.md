@@ -47,15 +47,9 @@ update 2025-02-03<br/><br/>
 <hr/>
 <br/>
 
-markitup-react/<br/>
-├── public/<br/>
- │   ├── index.html<br/>
-├── src/<br/>
- │   ├── components/<br/>
- │    │   └── MarkdownEditor.js<br/>
- │   ├── App.js<br/>
- │   ├── index.js<br/>
-├── package.json<br/><br/>
+프로젝트 구조<br/>
+![image](https://github.com/user-attachments/assets/2bea3061-3f08-4a85-b9fa-0ba99a5989b9)
+<br/><br/>
 <hr/>
 
 Free Logo : MARKMAKER <br/>

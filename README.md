@@ -59,6 +59,12 @@ https://emblemmatic.org/markmaker/#/designs
 <hr/>
 <br/>
 
+npm install draft-js
+npm install react-draft-wysiwyg
+<br/>
+<hr/>
+<br/>
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

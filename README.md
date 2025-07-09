@@ -5,7 +5,7 @@ MarkItUp
 **🌟 react-draft-wysiwyg 에디터 이슈**
 
 1. 리스트에서 한글 입력 후 엔터키 사용 시 내용 제거 및 이전 리스트로 포커스 이동
-2. 들여쓰기 불가<br/><br/>
+2. tab키 들여쓰기 불가<br/><br/>
 
 
 update 2025-02-03<br/><br/>

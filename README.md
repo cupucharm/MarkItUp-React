@@ -59,7 +59,7 @@ https://emblemmatic.org/markmaker/#/designs
 <hr/>
 <br/>
 
-npm install draft-js
+npm install draft-js<br/>
 npm install react-draft-wysiwyg
 <br/>
 <hr/>

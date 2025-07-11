@@ -55,9 +55,7 @@ update 2025-02-03<br/><br/>
 Free Logo : MARKMAKER <br/>
 https://emblemmatic.org/markmaker/#/designs
 
-<br/>
 <hr/>
-<br/>
 
 npm install draft-js<br/>
 npm install react-draft-wysiwyg
